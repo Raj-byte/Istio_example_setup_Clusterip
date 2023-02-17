@@ -1,0 +1,104 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: productpage
+spec: 
+  gateways:
+    - istio-system/bookinfo-gateway
+  hosts:
+  - "*"
+  http:
+    - name: productpage
+      match:
+      - uri:
+          prefix: /productpage
+      route:
+      - destination:
+           host: productpage.default.svc.cluster.local
+           port:
+            number: 9080
+           subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: reviews
+spec:
+  gateways:
+    - istio-system/bookinfo-gateway
+  hosts:
+   - "*"
+  http:
+    - name: reviews
+      match:
+      - uri:
+           prefix: /reviews
+      route:
+      - destination:
+          host: reviews.default.svc.cluster.local
+          port:
+            number: 9080
+          subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ratings
+spec:
+  gateways:
+    - istio-system/bookinfo-gateway
+  hosts:
+  - "*"
+  http:
+    - name: ratings
+      match:
+      - uri:
+           prefix: /ratings
+      route:
+      - destination:
+          host: ratings.default.svc.cluster.local
+          port:
+            number: 9080
+          subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: details
+spec:
+  gateways:
+    - istio-system/bookinfo-gateway
+  hosts:
+  - "*"
+  http:
+    - name: details
+      match:
+      - uri:
+           prefix: /details
+      route:
+      - destination:
+          host: details.default.svc.cluster.local
+          port:
+            number: 9080
+          subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: default
+spec:
+    gateways:
+      - istio-system/bookinfo-gateway
+    hosts:
+    - "*"
+    http:
+      - name: default
+        match:
+        - uri:
+             prefix: /
+        route:
+        - destination:
+            host: productpage.default.svc.cluster.local
+            port:
+              number: 9080
+            subset: v1
